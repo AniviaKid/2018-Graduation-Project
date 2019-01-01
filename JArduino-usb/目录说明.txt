@@ -1,0 +1,4 @@
+1.lib中是 android程序需要的jar包
+2.android-config目录中为android程序的配置文件
+3.blink-android-src为Blink的android项目（项目中jar包引用位置可能有误）
+4.JArduino为需要烧写到Arduino中的固件
