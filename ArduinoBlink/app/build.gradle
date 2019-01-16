@@ -29,4 +29,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/jarduino-usb-for-android.jar')
     compile files('libs/usb-serial-for-android-v010.jar')
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
 }
