@@ -45,6 +45,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -338,6 +340,7 @@ public class SpeechActivity extends Activity {
                             SpeechActivity.this, R.animator.color_animation);
                 colorAnimation.setTarget(labelView);
                 colorAnimation.start();
+                Toast.makeText(SpeechActivity.this,"successful!",Toast.LENGTH_LONG).show();
               }
             }
           });
