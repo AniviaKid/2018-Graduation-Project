@@ -340,7 +340,9 @@ public class SpeechActivity extends Activity {
                             SpeechActivity.this, R.animator.color_animation);
                 colorAnimation.setTarget(labelView);
                 colorAnimation.start();
-                Toast.makeText(SpeechActivity.this,"successful!",Toast.LENGTH_LONG).show();
+                Toast.makeText(SpeechActivity.this,"successful!",Toast.LENGTH_SHORT).show();
+                Arduino arduino=new Arduino(getApplicationContext());
+                arduino.runArduinoProcess();
               }
             }
           });
