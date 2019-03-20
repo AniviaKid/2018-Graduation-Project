@@ -99,6 +99,15 @@ public class SpeechActivity extends Activity {
   private List<String> displayedLabels = new ArrayList<>();
   private RecognizeCommands recognizeCommands = null;
 
+
+  public Arduino arduino;
+  public void Init_Arudio(){
+    arduino=new Arduino(getApplicationContext());
+    arduino.mode=0;
+    arduino.direction=0;
+    arduino.runArduinoProcess();
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     // Set up the UI.
@@ -157,6 +166,7 @@ public class SpeechActivity extends Activity {
     requestMicrophonePermission();
     startRecording();
     startRecognition();
+    Init_Arudio();
   }
 
   private void requestMicrophonePermission() {
@@ -341,8 +351,24 @@ public class SpeechActivity extends Activity {
                 colorAnimation.setTarget(labelView);
                 colorAnimation.start();
                 Toast.makeText(SpeechActivity.this,"successful!",Toast.LENGTH_SHORT).show();
-                Arduino arduino=new Arduino(getApplicationContext());
-                arduino.runArduinoProcess();
+
+                int my_index=labelIndex - 2;
+                if(my_index==9||my_index==6||my_index==2){ //go
+                  arduino.mode=1;
+                }
+                else if (my_index==8||my_index==7){//stop
+                  arduino.mode=0;
+                  arduino.direction=0;
+                }
+                else if (my_index==4){ //left
+                  arduino.direction=1;
+                }
+                else if (my_index==5){ //right
+                  arduino.direction=2;
+                }
+                else if (my_index==3){ //down
+                  arduino.mode=2;
+                }
               }
             }
           });

@@ -25,6 +25,12 @@ public class Arduino extends UsbArduino {
     PWMPin PWM_RIGHT=PWMPin.PWM_PIN_5;
     AnalogPin MotorAdjustmengPin=AnalogPin.A_1;
 
+
+    public int mode;//静止为0，前进为1，后退为2
+    public int direction;//直线为0，左拐为1，右拐为2
+    public int wheelSpeed = 95;
+    public int extra_wheelSpeed=143;
+
     public Arduino(Context appContext) {
         super(appContext);
     }
@@ -42,8 +48,19 @@ public class Arduino extends UsbArduino {
 
     @Override
     protected void loop() {
-        int wheelSpeed = 95;
-        motorsWrite(wheelSpeed,wheelSpeed);
+        if(mode==0){
+            stopMotor();
+        }
+        else if (mode==1){
+            if(direction==0) motorsWrite(wheelSpeed,wheelSpeed);
+            else if (direction==1) motorsWrite(wheelSpeed,extra_wheelSpeed);
+            else if (direction==2) motorsWrite(extra_wheelSpeed,wheelSpeed);
+        }
+        else if (mode==2){
+            if(direction==0) motorsWrite(-1*wheelSpeed,-1*wheelSpeed);
+            else if (direction==1) motorsWrite(-1*wheelSpeed,-1*extra_wheelSpeed);
+            else if (direction==2) motorsWrite(-1*extra_wheelSpeed,-1*wheelSpeed);
+        }
         delay(100);
     }
     //电机控制子程序
