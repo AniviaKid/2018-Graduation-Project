@@ -29,7 +29,7 @@ public class Arduino extends UsbArduino {
     public int mode;//静止为0，前进为1，后退为2
     public int direction;//直线为0，左拐为1，右拐为2
     public int wheelSpeed = 95;
-    public int extra_wheelSpeed=143;
+    public int week_wheelSpeed=24;
 
     public Arduino(Context appContext) {
         super(appContext);
@@ -53,13 +53,13 @@ public class Arduino extends UsbArduino {
         }
         else if (mode==1){
             if(direction==0) motorsWrite(wheelSpeed,wheelSpeed);
-            else if (direction==1) motorsWrite(wheelSpeed,extra_wheelSpeed);
-            else if (direction==2) motorsWrite(extra_wheelSpeed,wheelSpeed);
+            else if (direction==1) motorsWrite(week_wheelSpeed,wheelSpeed);
+            else if (direction==2) motorsWrite(wheelSpeed,week_wheelSpeed);
         }
         else if (mode==2){
             if(direction==0) motorsWrite(-1*wheelSpeed,-1*wheelSpeed);
-            else if (direction==1) motorsWrite(-1*wheelSpeed,-1*extra_wheelSpeed);
-            else if (direction==2) motorsWrite(-1*extra_wheelSpeed,-1*wheelSpeed);
+            else if (direction==1) motorsWrite(-1*week_wheelSpeed,-1*wheelSpeed);
+            else if (direction==2) motorsWrite(-1*wheelSpeed,-1*week_wheelSpeed);
         }
         delay(100);
     }
