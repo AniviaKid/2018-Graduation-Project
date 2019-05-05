@@ -2,6 +2,8 @@ package org.tensorflow.demo;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.widget.Space;
+import android.widget.Toast;
 
 import org.sintef.jarduino.AnalogPin;
 import org.sintef.jarduino.DigitalPin;
@@ -30,13 +32,16 @@ public class Arduino extends UsbArduino {
     public int direction;//直线为0，左拐为1，右拐为2
     public int wheelSpeed = 95;
     public int week_wheelSpeed=24;
+    public int sensorValue = 0;        // 电位器电压值
+    public int outputValue = 0;        // 模拟量输出值
 
     public Arduino(Context appContext) {
         super(appContext);
     }
 
     @Override
-    protected void setup() {
+    protected void setup()
+    {
         pinMode(DIR1_RIGHT, PinMode.OUTPUT);
         pinMode(DIR2_RIGHT, OUTPUT);
         pinMode(DIR1_LEFT, OUTPUT);
@@ -47,20 +52,33 @@ public class Arduino extends UsbArduino {
     }
 
     @Override
-    protected void loop() {
-        if(mode==0){
+    protected void loop()
+    {
+        //驱动电机
+        if(mode==0)//静止
+        {
             stopMotor();
         }
-        else if (mode==1){
+        else if (mode==1)//前进
+        {
             if(direction==0) motorsWrite(wheelSpeed,wheelSpeed);
             else if (direction==1) motorsWrite(week_wheelSpeed,wheelSpeed);
             else if (direction==2) motorsWrite(wheelSpeed,week_wheelSpeed);
         }
-        else if (mode==2){
+        else if (mode==2) //后退
+        {
             if(direction==0) motorsWrite(-1*wheelSpeed,-1*wheelSpeed);
             else if (direction==1) motorsWrite(-1*week_wheelSpeed,-1*wheelSpeed);
             else if (direction==2) motorsWrite(-1*wheelSpeed,-1*week_wheelSpeed);
         }
+
+
+        //读取电源
+        sensorValue=analogRead(AnalogPin.A_2);
+        outputValue = map(sensorValue, 0, 1023, 0, 500);
+        SpeechActivity.battery_percent=outputValue/5;
+
+
         delay(100);
     }
     //电机控制子程序

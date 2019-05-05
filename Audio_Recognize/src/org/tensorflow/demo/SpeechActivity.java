@@ -34,12 +34,14 @@ package org.tensorflow.demo;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -83,6 +85,7 @@ public class SpeechActivity extends Activity {
   // UI elements.
   private static final int REQUEST_RECORD_AUDIO = 13;
   private Button quitButton;
+  private Button battery_button;
   private ListView labelsListView;
   private static final String LOG_TAG = SpeechActivity.class.getSimpleName();
 
@@ -107,6 +110,8 @@ public class SpeechActivity extends Activity {
     arduino.direction=0;
     arduino.runArduinoProcess();
   }
+  public static int battery_percent=0;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +128,19 @@ public class SpeechActivity extends Activity {
             System.exit(1);
           }
         });
+
+    battery_button=(Button) findViewById(R.id.battery_button);
+    battery_button.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent();
+                    intent.setClass(SpeechActivity.this,Battery.class);
+                    startActivity(intent);
+                }
+            }
+    );
+
     labelsListView = (ListView) findViewById(R.id.list_view);
 
     // Load the labels for the model, but only display those that don't start
@@ -350,23 +368,28 @@ public class SpeechActivity extends Activity {
                             SpeechActivity.this, R.animator.color_animation);
                 colorAnimation.setTarget(labelView);
                 colorAnimation.start();
-                Toast.makeText(SpeechActivity.this,"successful!",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SpeechActivity.this,"successful!",Toast.LENGTH_SHORT).show();
 
                 int my_index=labelIndex - 2;
-                if(my_index==9||my_index==6||my_index==2){ //go
+                if(my_index==9||my_index==6||my_index==2) //go on up
+                {
                   arduino.mode=1;
                 }
-                else if (my_index==8||my_index==7){//stop
+                else if (my_index==8||my_index==7) //stop off
+                {
                   arduino.mode=0;
                   arduino.direction=0;
                 }
-                else if (my_index==4){ //left
+                else if (my_index==4)//left
+                {
                   arduino.direction=1;
                 }
-                else if (my_index==5){ //right
+                else if (my_index==5)//right
+                {
                   arduino.direction=2;
                 }
-                else if (my_index==3){ //down
+                else if (my_index==3)//down
+                {
                   arduino.mode=2;
                 }
               }

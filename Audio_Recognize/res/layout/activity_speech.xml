@@ -48,8 +48,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quit"
-        android:layout_gravity="bottom|center_horizontal"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        />
+    <Button
+        android:id="@+id/battery_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BATTERY"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="30dp"
         />
 
 </FrameLayout>
